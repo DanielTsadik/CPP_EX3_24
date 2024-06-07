@@ -4,9 +4,9 @@ Plot::Plot(const std::string& resource, int number, std::size_t index)
     : resource(resource), number(number), index(index), vertices{}, edges{} {}
 
 
-void Plot::setVertex(int position, const Vertex& vertex) {
-    if (position >= 0 && position < 6) {
-        vertices[position] = &vertex;
+void Plot:: setVertex(Vertex& vertex) {
+    {
+        vertices.push_back(&vertex);
     }
 }
 
@@ -28,10 +28,10 @@ std::size_t Plot::getIndex() const {
     return index;
 }
 
-const std::vector<const Vertex*>& Plot::getVertices() const {
+ std::vector< Vertex*>& Plot::getVertices() {
     return vertices;
 }
 
-const std::array<Edge, 6>& Plot::getEdges() const {
+const std::vector<Edge>& Plot::getEdges() const {
     return edges;
 }

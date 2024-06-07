@@ -1,33 +1,34 @@
-# Compiler and flags
-CXX = clang++
-CXXFLAGS = -std=c++11 -Wall -Wextra -Werror -Iinclude
+# Compiler
+CXX = g++
 
-# Source files
-SRCS = main.cpp \
-       src/Catan.cpp \
-       src/Player.cpp \
-       src/Board.cpp \
-       src/City.cpp \
-       src/Plot.cpp \
-       src/DevelopmentCard.cpp \
-       src/Road.cpp \
-       src/Settlement.cpp
+# Compiler flags
+CXXFLAGS = -std=c++11 -Wall -Iinclude
+
+# Source directories
+SRC_DIR = src
+INCLUDE_DIR = include
+
+# Find all cpp files in the src directory
+SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 
 # Object files
-OBJS = $(SRCS:.cpp=.o)
+OBJECTS = $(SOURCES:.cpp=.o)
 
-# Executable name
-EXEC = catan_game
+# Main file
+MAIN = main.cpp
 
-# Build rule
-all: $(EXEC)
+# Output executable
+TARGET = main
 
-$(EXEC): $(OBJS)
+# Rule to compile the program
+$(TARGET): $(OBJECTS) $(MAIN)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+# Pattern rule to compile .o files from .cpp files
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 # Clean rule
+.PHONY: clean
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -f $(SRC_DIR)/*.o $(TARGET)
