@@ -65,9 +65,10 @@ bool Player::canbuyRoad()
 
 void Player::rollDice(Board &board)
 {
+    srand(time(0)); // use current time as seed for random generator
     int diceRoll = rand() % 6 + 1 + rand() % 6 + 1;
     std::cout << "Player " << this->getName() << " rolled a " << diceRoll << std::endl;
-    board.giveResources(diceRoll);
+    board.giveResources(board.players, diceRoll);
 }
 
 void Player::placeInitialSettlementAndRoad(int vertexIndex, int vertexIndex2, Board &board)
@@ -103,6 +104,8 @@ void Player::placeSettlement(int vertexIndex, Board &board)
             resources[i].second -= 1;
         }
         points += 1;
+        // print the resources that the player has after placing the settlement
+        std::cout << "Player " << this->getName() << " now has resources: Wood: " << resources[0].second << ", Brick: " << resources[1].second << ", Wool: " << resources[2].second << ", Wheat: " << resources[3].second << ", Ore: " << resources[4].second << std::endl;
     }
     else
     {
@@ -114,7 +117,7 @@ void Player::upgradeToCity(int vertexIndex, Board &board)
 {
     if (!canbuyCity())
     {
-        std::cout << "Player " << this->getName() << " cannot upgrade a settlement to a city on vertex " << vertexIndex << "because he is broke" << std::endl;
+        std::cout << "Player " << this->getName() << " cannot upgrade a settlement to a city on vertex " << vertexIndex << " because he is broke" << std::endl;
         return;
     }
     if (board.canPlaceCity(this->getId(), vertexIndex))
@@ -124,6 +127,8 @@ void Player::upgradeToCity(int vertexIndex, Board &board)
         resources[3].second -= 2;
         resources[4].second -= 3;
         points += 1;
+        // print the resources that the player has after upgrading the settlement to a city
+        std::cout << "Player " << this->getName() << " now has resources: Wood: " << resources[0].second << ", Brick: " << resources[1].second << ", Wool: " << resources[2].second << ", Wheat: " << resources[3].second << ", Ore: " << resources[4].second << std::endl;
     }
     else
     {
@@ -135,7 +140,7 @@ void Player::placeRoad(int vertexIndex1, int vertexIndex2, Board &board)
 {
     if (!canbuyRoad())
     {
-        std::cout << "Player " << this->getName() << " cannot place a road between vertices " << vertexIndex1 << " and " << vertexIndex2 << "because he is broke" << std::endl;
+        std::cout << "Player " << this->getName() << " cannot place a road between vertices " << vertexIndex1 << " and " << vertexIndex2 << " because he is broke" << std::endl;
         return;
     }
     if (board.canPlaceRoad(this->getId(), vertexIndex1, vertexIndex2))
@@ -144,6 +149,8 @@ void Player::placeRoad(int vertexIndex1, int vertexIndex2, Board &board)
         std::cout << "Player " << this->getName() << " placed a road between vertices " << vertexIndex1 << " and " << vertexIndex2 << std::endl;
         resources[0].second -= 1;
         resources[1].second -= 1;
+        // print the resources that the player has after placing the road
+        std::cout << "Player " << this->getName() << " now has resources: Wood: " << resources[0].second << ", Brick: " << resources[1].second << ", Wool: " << resources[2].second << ", Wheat: " << resources[3].second << ", Ore: " << resources[4].second << std::endl;
     }
     else
     {
@@ -205,16 +212,13 @@ void Player::addResource(const std::string &resource, int amount)
     {
         if (resources[i].first == resource)
         {
-            std::cout << "checking if the player has the resource\n";
             std::cout << "Player " << this->getName() << " got " << amount << " " << resource << std::endl;
             resources[i].second += amount;
             std::cout << "Player " << this->getName() << " now has " << resources[i].second << " " << resource << std::endl;
-            std::cout << "Player " << this->getName() << " now has " << resources[i].second << " " << resource << std::endl;
-            // print the amount of resources the player has
-            std::cout << "Player " << this->getName() << " has " << resources[i].second << " " << resource << std::endl;
         }
     }
-    std::cout << resources[0].second << " " << resources[1].second << " " << resources[2].second << " " << resources[3].second << " " << resources[4].second << std::endl;
+    // print the resources that the player got:
+    std::cout << "Player " << this->getName() << " got the next resources: Wood: " << resources[0].second << ", Brick: " << resources[1].second << ", Wool: " << resources[2].second << ", Wheat: " << resources[3].second << ", Ore: " << resources[4].second << std::endl;
 }
 
 // A function that took 1 random development card from the deck and gave it to the player. the card will be deleted from the deck
@@ -252,7 +256,7 @@ void Player::useKnight(Board &board)
             {
                 if (board.biggestArmyIndex != -1 && board.biggestArmyIndex != this->getId())
                 {
-                    board.players[board.biggestArmyIndex].points -= 2;
+                    board.players[board.biggestArmyIndex]->points -= 2;
                     board.biggestArmy = knightsPlayed;
                     board.biggestArmyIndex = this->getId();
                     points += 2;
@@ -321,14 +325,14 @@ void Player::useMonopoly(Board &board, std::string resource)
             // check if the player can get the resources
             for (int j = 0; j < 3; j++)
             {
-                if (board.players[j].getId() != this->getId())
+                if (board.players[j]->getId() != this->getId())
                 {
-                    for (int k = 0; (long unsigned int)k < board.players[j].resources.size(); k++)
+                    for (int k = 0; (long unsigned int)k < board.players[j]->resources.size(); k++)
                     {
-                        if (board.players[j].resources[k].first == resource)
+                        if (board.players[j]->resources[k].first == resource)
                         {
-                            addResource(resource, board.players[j].resources[k].second);
-                            board.players[j].resources[k].second = 0;
+                            addResource(resource, board.players[j]->resources[k].second);
+                            board.players[j]->resources[k].second = 0;
                         }
                     }
                 }
@@ -353,14 +357,14 @@ void Player::tradeResources(Board &board, int player, std::string resource1, int
             // check if the other player has the resources
             for (int j = 0; j < 5; j++)
             {
-                if (board.players[player].resources[j].first == resource2 && board.players[player].resources[j].second >= amount2)
+                if (board.players[player - 1]->resources[j].first == resource2 && board.players[player - 1]->resources[j].second >= amount2)
                 {
                     // trade the resources
                     resources[i].second += amount;
                     resources[j].second -= amount;
-                    board.players[player].resources[j].second += amount2;
-                    board.players[player].resources[i].second -= amount2;
-                    std::cout << "Player " << this->getName() << " traded " << amount << " " << resource1 << " with player " << board.players[player].getName() << " for " << amount2 << " " << resource2 << std::endl;
+                    board.players[player - 1]->resources[j].second += amount2;
+                    board.players[player - 1]->resources[i].second -= amount2;
+                    std::cout << "Player " << this->getName() << " traded " << amount << " " << resource1 << " with player " << board.players[player - 1]->getName() << " for " << amount2 << " " << resource2 << std::endl;
                     return;
                 }
             }

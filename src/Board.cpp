@@ -14,9 +14,9 @@ Board::Board(Player &player1, Player &player2, Player &player3)
     std::cout << "Initializing board..." << std::endl;
 
     // Add players to the players vector
-    players.push_back(player1);
-    players.push_back(player2);
-    players.push_back(player3);
+    players.push_back(&player1);
+    players.push_back(&player2);
+    players.push_back(&player3);
 
     // Define resource types, numbers, and indices for the fixed board setup
     std::vector<std::tuple<std::string, int, std::size_t>> plotData = {
@@ -27,12 +27,8 @@ Board::Board(Player &player1, Player &player2, Player &player3)
     for (int i = 0; i < 19; i++)
     {
         plots.emplace_back(Plot(std::get<0>(plotData[i]), std::get<1>(plotData[i]), std::get<2>(plotData[i])));
-
-        std::cout << plots[i].getIndex() << std::endl;
-        std::cout << plots[i].getResource() << std::endl;
     }
 
-    std::cout << "Initializing vertices..." << std::endl;
     // Initialize vertices (54 vertices)
     vertices.reserve(54);
     for (std::size_t i = 0; i < 54; ++i)
@@ -40,11 +36,9 @@ Board::Board(Player &player1, Player &player2, Player &player3)
         vertices.emplace_back(Vertex(i));
     }
 
-    std::cout << "Mapping plots to vertices..." << std::endl;
     // Manually establish connections between plots and vertices based on your specified order
     std::vector<std::vector<std::size_t>> vertexMapping = {
         {0, 1, 2, 10, 9, 8}, {2, 3, 4, 12, 11, 10}, {4, 5, 6, 14, 13, 12}, {7, 8, 9, 19, 18, 17}, {9, 10, 11, 21, 20, 19}, {11, 12, 13, 23, 22, 21}, {13, 14, 15, 25, 24, 22}, {16, 17, 18, 29, 28, 27}, {18, 19, 20, 31, 30, 29}, {20, 21, 22, 33, 32, 31}, {22, 23, 24, 35, 34, 33}, {24, 25, 26, 37, 36, 35}, {28, 29, 30, 40, 39, 38}, {30, 31, 32, 42, 41, 40}, {32, 33, 34, 44, 43, 42}, {34, 35, 36, 46, 45, 44}, {39, 40, 41, 49, 48, 47}, {41, 42, 43, 51, 50, 49}, {43, 44, 45, 53, 52, 51}};
-    std::cout << "Creating edges..." << std::endl;
     // Set the vertices for each plot
     for (std::size_t i = 0; i < 19; i++)
     {
@@ -55,7 +49,6 @@ Board::Board(Player &player1, Player &player2, Player &player3)
         }
     }
 
-    std::cout << "Mapping edges to vertices..." << std::endl;
     // Manually set up vertex neighbors to handle roads
     vertices[0].addNeighbor(&vertices[1]);
     vertices[0].addNeighbor(&vertices[8]);
@@ -215,8 +208,6 @@ Board::Board(Player &player1, Player &player2, Player &player3)
         edges[i].setVertices(&vertices[edgeMapping[i][0]], &vertices[edgeMapping[i][1]]);
         vertices[edgeMapping[i][0]].addEdge(&edges[i]);
         vertices[edgeMapping[i][1]].addEdge(&edges[i]);
-        std::cout << edges[i].getVertex1().getIndex() << std::endl;
-        std::cout << edges[i].getVertex2().getIndex() << std::endl;
     }
 
     // // give each vertex the edges that are connected to it
@@ -299,46 +290,48 @@ int Board::getEdge(std::size_t vertexIndex1, std::size_t vertexIndex2)
     return -1;
 }
 
-void Board::giveResources(int diceRoll)
+void Board::giveResources(std::vector<Player *> &players, int diceRoll)
 {
     for (int i = 0; i < 19; i++)
     {
         if (plots[i].getNumber() == diceRoll)
         {
+            std::cout << "Plot " << i << " has number: " << plots[i].getNumber() << std::endl;
             const std::vector<Vertex *> &vertices = plots[i].getVertices();
             for (Vertex *vertex : vertices)
             {
-                if (vertex->getOwner() != -1 && vertex->getCity() == 0)
+                if (vertex->getOwner() != -1 && vertex->getCity() == -1)
                 {
+                    std::cout << "Vertex " << vertex->getIndex() << " has owner: " << vertex->getOwner() << std::endl;
                     if (plots[i].getResource() == "Mountains")
                     {
                         // give the player who owns the vertex a mountain resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Ore", 1);
+                        players[playerId - 1]->addResource("Ore", 1);
                     }
                     else if (plots[i].getResource() == "Pasture")
                     {
                         // give the player who owns the vertex a pasture resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Wool", 1);
+                        players[playerId - 1]->addResource("Wool", 1);
                     }
                     else if (plots[i].getResource() == "Forest")
                     {
                         // give the player who owns the vertex a forest resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Forest", 1);
+                        players[playerId - 1]->addResource("Wood", 1);
                     }
                     else if (plots[i].getResource() == "Agricultural")
                     {
                         // give the player who owns the vertex an agricultural resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Wheat", 1);
+                        players[playerId - 1]->addResource("Wheat", 1);
                     }
                     else if (plots[i].getResource() == "Hills")
                     {
                         // give the player who owns the vertex a hills resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Brick", 1);
+                        players[playerId - 1]->addResource("Brick", 1);
                     }
                 }
                 else if (vertex->getOwner() != -1 && vertex->getCity() == 1)
@@ -347,29 +340,31 @@ void Board::giveResources(int diceRoll)
                     {
                         // give the player who owns the vertex a mountain resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Mountain", 2);
+                        players[playerId - 1]->addResource("Mountain", 2);
                     }
                     else if (plots[i].getResource() == "Pasture")
                     {
                         // give the player who owns the vertex a pasture resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Pasture", 2);
+                        players[playerId - 1]->addResource("Pasture", 2);
                     }
                     else if (plots[i].getResource() == "Forest")
                     {
                         // give the player who owns the vertex a forest resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Forest", 2);
+                        players[playerId - 1]->addResource("Forest", 2);
                     }
                     else if (plots[i].getResource() == "Agricultural")
                     {
                         // give the player who owns the vertex an agricultural resource
                         int playerId = vertex->getOwner();
-                        players[playerId].addResource("Agricultural", 2);
+                        players[playerId - 1]->addResource("Agricultural", 2);
                     }
                     else if (plots[i].getResource() == "Hills")
                     {
                         // give the player who owns the vertex a hills resource
+                        int playerId = vertex->getOwner();
+                        players[playerId - 1]->addResource("Hills", 2);
                     }
                 }
             }
@@ -380,11 +375,11 @@ void Board::giveResources(int diceRoll)
 void Board::drawDevelopmentCard(int playerId)
 {
     // take the first card from the deck and give it to the player
-    players[playerId].developmentCards.push_back(developmentCards[0].getType());
+    players[playerId - 1]->developmentCards.push_back(developmentCards[0].getType());
     developmentCards.erase(developmentCards.begin());
 }
 
-bool Board::canPlaceInitialSettlementAndRoad(Player& player, std::size_t vertexIndex, std::size_t vertexIndex2)
+bool Board::canPlaceInitialSettlementAndRoad(Player &player, std::size_t vertexIndex, std::size_t vertexIndex2)
 {
     // Check if vertexIndex is valid
     if (vertexIndex >= vertices.size() || vertexIndex < 0 || vertexIndex2 >= vertices.size() || vertexIndex2 < 0)
@@ -428,7 +423,7 @@ bool Board::canPlaceInitialSettlementAndRoad(Player& player, std::size_t vertexI
     // Set the owner of the edge to the playerID
     edges[edgeIndex].setOwner(player.getId());
 
-    // int playerId = player.getId();  
+    // int playerId = player.getId();
     // Give the player the resources that the vertex sits on
     for (int i = 0; i < 19; i++)
     {
@@ -448,7 +443,6 @@ bool Board::canPlaceInitialSettlementAndRoad(Player& player, std::size_t vertexI
                 }
                 else if (plots[i].getResource() == "Forest")
                 {
-                    std:: cout << "Adding forest" << std::endl;
                     player.addResource("Wood", 1);
                 }
                 else if (plots[i].getResource() == "Agricultural")
@@ -465,9 +459,6 @@ bool Board::canPlaceInitialSettlementAndRoad(Player& player, std::size_t vertexI
 
     return true;
 }
-
-
-
 
 bool Board::canPlaceSettlement(int playerId, std::size_t vertexIndex)
 {

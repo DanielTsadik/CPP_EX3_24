@@ -40,7 +40,7 @@ public:
     bool canPlaceInitialSettlementAndRoad(Player& player, std::size_t vertexIndex, std::size_t vertexIndex2);
 
     // Function to give resources to the players based on the dice roll!
-    void giveResources(int diceRoll);
+    void giveResources(std::vector<Player*>& players, int diceRoll);
 
     // Vector to hold the Development Cards
     std::vector<DevelopmentCard> developmentCards;
@@ -55,7 +55,7 @@ public:
     int biggestArmy = 2;
 
     // Vector to hold the players
-    std::vector<Player> players;
+    std::vector<Player*> players;
 
 private:
     // Vector to hold the plots
