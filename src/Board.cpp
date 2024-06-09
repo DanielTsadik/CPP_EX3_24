@@ -22,7 +22,6 @@ Board::Board(Player &player1, Player &player2, Player &player3)
     std::vector<std::tuple<std::string, int, std::size_t>> plotData = {
         {"Mountains", 10, 0}, {"Pasture", 2, 1}, {"Forest", 9, 2}, {"Agricultural", 12, 3}, {"Hills", 6, 4}, {"Pasture", 4, 5}, {"Hills", 10, 6}, {"Agricultural", 9, 7}, {"Forest", 11, 8}, {"Desert", 7, 9}, {"Forest", 3, 10}, {"Mountains", 8, 11}, {"Forest", 8, 12}, {"Mountains", 3, 13}, {"Agricultural", 4, 14}, {"Pasture", 5, 15}, {"Hills", 5, 16}, {"Agricultural", 6, 17}, {"Pasture", 11, 18}};
 
-    std::cout << "Creating plots..." << std::endl;
     // Create plots with fixed resources and numbers
     for (int i = 0; i < 19; i++)
     {
@@ -45,7 +44,6 @@ Board::Board(Player &player1, Player &player2, Player &player3)
         for (std::size_t j = 0; j < 6; j++)
         {
             plots[i].setVertex(vertices[vertexMapping[i][j]]);
-            std::cout << vertexMapping[i][j] << std::endl;
         }
     }
 
