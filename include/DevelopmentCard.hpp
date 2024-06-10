@@ -2,14 +2,15 @@
 #define DEVELOPMENTCARD_HPP
 
 #include <string>
+using namespace std;
 
 class DevelopmentCard {
 public:
-    explicit DevelopmentCard(const std::string& type);
-    std::string getType() const;
+    explicit DevelopmentCard(const string& type);
+    string getType() const;
 
 private:
-    std::string type;
+    string type;
 };
 
 #endif // DEVELOPMENTCARD_HPP

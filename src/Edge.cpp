@@ -1,10 +1,10 @@
 #include "Edge.hpp"
 #include "Vertex.hpp"
 
-Edge::Edge(const Vertex* v1, const Vertex* v2, std::size_t index)
+Edge::Edge(const Vertex* v1, const Vertex* v2, size_t index)
     : v1(v1), v2(v2), index(index), owner(-1) {}
 
-Edge::Edge(std::size_t index) : index(index), owner(-1) {}
+Edge::Edge(size_t index) : index(index), owner(-1) {}
 
 Edge::Edge(const Edge& other) {
     this->v1 = other.v1;
@@ -26,7 +26,7 @@ Edge& Edge::operator=(const Edge& other) {
 }
 
 
-std::size_t Edge::getIndex() const {
+size_t Edge::getIndex() const {
     return index;
 }
 

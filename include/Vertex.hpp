@@ -7,13 +7,15 @@
 class Plot; // Forward declaration of the Plot class
 class Edge; // Forward declaration of the Edge class
 
+using namespace std;
+
 class Vertex {
 public:
     // Constructor to initialize the vertex with an index
-    Vertex(std::size_t index);
+    Vertex(size_t index);
 
     // Getters and setters for index and owner
-    std::size_t getIndex() const;
+    size_t getIndex() const;
     void setOwner(int playerId);
     void setCity(int cityId);
     int getOwner() const;
@@ -23,7 +25,7 @@ public:
     void addAdjacentPlot(Plot* plot);
 
     // Get the adjacent plots
-    const std::vector<Plot*>& getAdjacentPlots() const;
+    const vector<Plot*>& getAdjacentPlots() const;
 
     // Add an adjacent vertex to the vertex
     void addNeighbor(Vertex* vertex);
@@ -32,21 +34,21 @@ public:
     bool isNeighbor(const Vertex& vertex) const;
 
     // Get the adjacent vertices
-    const std::vector<Vertex*>& getNeighbors() const;
+    const vector<Vertex*>& getNeighbors() const;
 
     // Add an adjacent edge to the vertex
     void addEdge(Edge* edge);
 
     // Get the adjacent edges
-    const std::vector<Edge*>& getEdges() const;
+    const vector<Edge*>& getEdges() const;
 
 private:
-    std::size_t index; // Index of the vertex
+    size_t index; // Index of the vertex
     int owner; // ID of the player who owns the vertex, -1 if unowned
     int city; 
-    std::vector<Plot*> adjacentPlots; // Adjacent plots
-    std::vector<Vertex*> neighbors; // Adjacent vertices (neighbors)
-    std::vector<Edge*> edges; // Adjacent edges 
+    vector<Plot*> adjacentPlots; // Adjacent plots
+    vector<Vertex*> neighbors; // Adjacent vertices (neighbors)
+    vector<Edge*> edges; // Adjacent edges 
 };
 
 #endif // VERTEX_HPP

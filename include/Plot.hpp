@@ -3,27 +3,28 @@
 #include <array>
 #include "Vertex.hpp"
 #include "Edge.hpp"
+using namespace std;
 
 class Plot {
 public:
-    Plot(const std::string& resource, int number, std::size_t index);
+    Plot(const string& resource, int number, size_t index);
 
     void setVertex(Vertex& vertex);
     void setEdge(int position, const Edge& edge);
 
-    std::string getResource() const;
+    string getResource() const;
     int getNumber() const;
-    std::size_t getIndex() const;
+    size_t getIndex() const;
 
-    std::vector<Vertex*>& getVertices();
-    const std::vector<Edge>& getEdges() const;
+    vector<Vertex*>& getVertices();
+    const vector<Edge>& getEdges() const;
 
 private:
-    std::string resource;
+    string resource;
     int number;
-    std::size_t index;
-    // std::vector<Vertex> vertices;
-    std::vector<Vertex*> vertices;
-    std::vector<Edge> edges;
+    size_t index;
+    // vector<Vertex> vertices;
+    vector<Vertex*> vertices;
+    vector<Edge> edges;
     
 };

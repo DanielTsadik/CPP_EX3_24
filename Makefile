@@ -20,6 +20,8 @@ MAIN = main.cpp
 # Output executable
 TARGET = main
 
+all: $(TARGET) Test
+
 # Rule to compile the program
 $(TARGET): $(OBJECTS) $(MAIN)
 	$(CXX) $(CXXFLAGS) -o $@ $^
@@ -28,7 +30,14 @@ $(TARGET): $(OBJECTS) $(MAIN)
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
+# Pattern rule to compile the test files
+Test: Test.o $(OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+Test.o: Test.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
 # Clean rule
-.PHONY: clean
+.PHONY: clean all
 clean:
-	rm -f $(SRC_DIR)/*.o $(TARGET)
+	rm -f $(SRC_DIR)/*.o $(TARGET) *.o Test

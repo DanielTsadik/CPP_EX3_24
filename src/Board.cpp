@@ -1,3 +1,7 @@
+// Daniel Tsadik
+// Tsadik88@gmail.com   
+// 209307727
+
 #include "Board.hpp"
 #include "Vertex.hpp"
 #include "Edge.hpp"
@@ -7,11 +11,14 @@
 #include <tuple>
 #include "DevelopmentCard.hpp"
 #include <algorithm>
+#include <random> // for default_random_engine and random_device
+#include <chrono> // for system_clock
+
 
 // Constructor for the Board class
 Board::Board(Player &player1, Player &player2, Player &player3)
 {
-    std::cout << "Initializing board..." << std::endl;
+    cout << "Initializing board..." << endl;
 
     // Add players to the players vector
     players.push_back(&player1);
@@ -19,29 +26,29 @@ Board::Board(Player &player1, Player &player2, Player &player3)
     players.push_back(&player3);
 
     // Define resource types, numbers, and indices for the fixed board setup
-    std::vector<std::tuple<std::string, int, std::size_t>> plotData = {
+    vector<tuple<string, int, size_t>> plotData = {
         {"Mountains", 10, 0}, {"Pasture", 2, 1}, {"Forest", 9, 2}, {"Agricultural", 12, 3}, {"Hills", 6, 4}, {"Pasture", 4, 5}, {"Hills", 10, 6}, {"Agricultural", 9, 7}, {"Forest", 11, 8}, {"Desert", 7, 9}, {"Forest", 3, 10}, {"Mountains", 8, 11}, {"Forest", 8, 12}, {"Mountains", 3, 13}, {"Agricultural", 4, 14}, {"Pasture", 5, 15}, {"Hills", 5, 16}, {"Agricultural", 6, 17}, {"Pasture", 11, 18}};
 
     // Create plots with fixed resources and numbers
     for (int i = 0; i < 19; i++)
     {
-        plots.emplace_back(Plot(std::get<0>(plotData[i]), std::get<1>(plotData[i]), std::get<2>(plotData[i])));
+        plots.emplace_back(Plot(get<0>(plotData[i]), get<1>(plotData[i]), get<2>(plotData[i])));
     }
 
     // Initialize vertices (54 vertices)
     vertices.reserve(54);
-    for (std::size_t i = 0; i < 54; ++i)
+    for (size_t i = 0; i < 54; ++i)
     {
         vertices.emplace_back(Vertex(i));
     }
 
     // Manually establish connections between plots and vertices based on your specified order
-    std::vector<std::vector<std::size_t>> vertexMapping = {
+    vector<vector<size_t>> vertexMapping = {
         {0, 1, 2, 10, 9, 8}, {2, 3, 4, 12, 11, 10}, {4, 5, 6, 14, 13, 12}, {7, 8, 9, 19, 18, 17}, {9, 10, 11, 21, 20, 19}, {11, 12, 13, 23, 22, 21}, {13, 14, 15, 25, 24, 22}, {16, 17, 18, 29, 28, 27}, {18, 19, 20, 31, 30, 29}, {20, 21, 22, 33, 32, 31}, {22, 23, 24, 35, 34, 33}, {24, 25, 26, 37, 36, 35}, {28, 29, 30, 40, 39, 38}, {30, 31, 32, 42, 41, 40}, {32, 33, 34, 44, 43, 42}, {34, 35, 36, 46, 45, 44}, {39, 40, 41, 49, 48, 47}, {41, 42, 43, 51, 50, 49}, {43, 44, 45, 53, 52, 51}};
     // Set the vertices for each plot
-    for (std::size_t i = 0; i < 19; i++)
+    for (size_t i = 0; i < 19; i++)
     {
-        for (std::size_t j = 0; j < 6; j++)
+        for (size_t j = 0; j < 6; j++)
         {
             plots[i].setVertex(vertices[vertexMapping[i][j]]);
         }
@@ -191,17 +198,17 @@ Board::Board(Player &player1, Player &player2, Player &player3)
     vertices[53].addNeighbor(&vertices[45]);
 
     edges.reserve(72);
-    for (std::size_t i = 0; i < 72; ++i)
+    for (size_t i = 0; i < 72; ++i)
     {
         edges.emplace_back(Edge(i));
     }
 
     // Manually establish connections between edges and vertices based on your specified order
-    std::vector<std::vector<std::size_t>> edgeMapping = {
+    vector<vector<size_t>> edgeMapping = {
         {0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {0, 8}, {2, 10}, {4, 12}, {6, 14}, {7, 8}, {8, 9}, {9, 10}, {10, 11}, {11, 12}, {12, 13}, {13, 14}, {14, 15}, {7, 17}, {9, 19}, {11, 21}, {13, 23}, {15, 25}, {16, 17}, {17, 18}, {18, 19}, {19, 20}, {20, 21}, {21, 22}, {22, 23}, {23, 24}, {24, 25}, {25, 26}, {16, 27}, {18, 29}, {20, 31}, {22, 33}, {24, 35}, {26, 37}, {27, 28}, {28, 29}, {29, 30}, {30, 31}, {31, 32}, {32, 33}, {33, 34}, {34, 35}, {35, 36}, {36, 37}, {28, 38}, {30, 40}, {32, 42}, {34, 44}, {36, 46}, {38, 39}, {39, 40}, {40, 41}, {41, 42}, {42, 43}, {43, 44}, {44, 45}, {45, 46}, {39, 47}, {41, 49}, {43, 51}, {45, 53}, {47, 48}, {48, 49}, {49, 50}, {50, 51}, {51, 52}, {52, 53}};
 
     // Set the vertices for each edge
-    for (std::size_t i = 0; i < edges.size(); ++i)
+    for (size_t i = 0; i < edges.size(); ++i)
     {
         edges[i].setVertices(&vertices[edgeMapping[i][0]], &vertices[edgeMapping[i][1]]);
         vertices[edgeMapping[i][0]].addEdge(&edges[i]);
@@ -209,9 +216,9 @@ Board::Board(Player &player1, Player &player2, Player &player3)
     }
 
     // // give each vertex the edges that are connected to it
-    // for (std::size_t i = 0; i < vertices.size(); ++i)
+    // for (size_t i = 0; i < vertices.size(); ++i)
     // {
-    //     const std::vector<Vertex *> &neighbors = vertices[i].getNeighbors();
+    //     const vector<Vertex *> &neighbors = vertices[i].getNeighbors();
     //     for (const Vertex *neighbor : neighbors)
     //     {
     //         for (const Edge &edge : edges)
@@ -246,20 +253,20 @@ Board::Board(Player &player1, Player &player2, Player &player3)
         developmentCards.push_back(DevelopmentCard("Monopoly"));
     }
 
-    // shuffle the deck of development cards, so that the cards are in a random order
-    std::random_shuffle(developmentCards.begin(), developmentCards.end());
+    default_random_engine engine(chrono::system_clock::now().time_since_epoch().count());
+    shuffle(developmentCards.begin(), developmentCards.end(), engine);
 
     // Print message indicating game setup is complete and initial board configuration
-    std::cout << "Game setup is complete. Initial board configuration:" << std::endl;
+    cout << "Game setup is complete. Initial board configuration:" << endl;
     printBoard();
 }
 
-const std::vector<Plot> &Board::getPlots() const
+const vector<Plot> &Board::getPlots() const
 {
     return plots;
 }
 
-std::vector<Vertex> &Board::getVertices()
+vector<Vertex> &Board::getVertices()
 {
     return vertices;
 }
@@ -268,15 +275,15 @@ void Board::printBoard() const
 {
     for (const Plot &plot : plots)
     {
-        std::cout << "Plot " << plot.getIndex() << ": " << plot.getResource() << " (" << plot.getNumber() << ")\n";
+        cout << "Plot " << plot.getIndex() << ": " << plot.getResource() << " (" << plot.getNumber() << ")\n";
     }
 }
 
-int Board::getEdge(std::size_t vertexIndex1, std::size_t vertexIndex2)
+int Board::getEdge(size_t vertexIndex1, size_t vertexIndex2)
 {
     if (vertexIndex1 > vertexIndex2)
     {
-        std::swap(vertexIndex1, vertexIndex2);
+        swap(vertexIndex1, vertexIndex2);
     }
     for (int i = 0; i < 72; i++)
     {
@@ -288,19 +295,18 @@ int Board::getEdge(std::size_t vertexIndex1, std::size_t vertexIndex2)
     return -1;
 }
 
-void Board::giveResources(std::vector<Player *> &players, int diceRoll)
+void Board::giveResources(vector<Player *> &players, int diceRoll)
 {
     for (int i = 0; i < 19; i++)
     {
         if (plots[i].getNumber() == diceRoll)
         {
-            std::cout << "Plot " << i << " has number: " << plots[i].getNumber() << std::endl;
-            const std::vector<Vertex *> &vertices = plots[i].getVertices();
+            cout << "Plot " << i << " has number: " << plots[i].getNumber() << endl;
+            const vector<Vertex *> &vertices = plots[i].getVertices();
             for (Vertex *vertex : vertices)
             {
                 if (vertex->getOwner() != -1 && vertex->getCity() == -1)
                 {
-                    std::cout << "Vertex " << vertex->getIndex() << " has owner: " << vertex->getOwner() << std::endl;
                     if (plots[i].getResource() == "Mountains")
                     {
                         // give the player who owns the vertex a mountain resource
@@ -338,51 +344,53 @@ void Board::giveResources(std::vector<Player *> &players, int diceRoll)
                     {
                         // give the player who owns the vertex a mountain resource
                         int playerId = vertex->getOwner();
-                        players[playerId - 1]->addResource("Mountain", 2);
+                        players[playerId - 1]->addResource("Ore", 2);
                     }
                     else if (plots[i].getResource() == "Pasture")
                     {
                         // give the player who owns the vertex a pasture resource
                         int playerId = vertex->getOwner();
-                        players[playerId - 1]->addResource("Pasture", 2);
+                        players[playerId - 1]->addResource("Wool", 2);
                     }
                     else if (plots[i].getResource() == "Forest")
                     {
                         // give the player who owns the vertex a forest resource
                         int playerId = vertex->getOwner();
-                        players[playerId - 1]->addResource("Forest", 2);
+                        players[playerId - 1]->addResource("Wood", 2);
                     }
                     else if (plots[i].getResource() == "Agricultural")
                     {
                         // give the player who owns the vertex an agricultural resource
                         int playerId = vertex->getOwner();
-                        players[playerId - 1]->addResource("Agricultural", 2);
+                        players[playerId - 1]->addResource("Wheat", 2);
                     }
                     else if (plots[i].getResource() == "Hills")
                     {
                         // give the player who owns the vertex a hills resource
                         int playerId = vertex->getOwner();
-                        players[playerId - 1]->addResource("Hills", 2);
+                        players[playerId - 1]->addResource("Brick", 2);
                     }
                 }
             }
         }
     }
+    cout << "\n"
+              << endl;
 }
 
 void Board::drawDevelopmentCard(int playerId)
 {
     // take the first card from the deck and give it to the player
-    players[playerId - 1]->developmentCards.push_back(developmentCards[0].getType());
+    players[playerId - 1]->developmentCards.push_back(developmentCards.back().getType());
     developmentCards.erase(developmentCards.begin());
 }
 
-bool Board::canPlaceInitialSettlementAndRoad(Player &player, std::size_t vertexIndex, std::size_t vertexIndex2)
+bool Board::canPlaceInitialSettlementAndRoad(Player &player, size_t vertexIndex, size_t vertexIndex2)
 {
     // Check if vertexIndex is valid
     if (vertexIndex >= vertices.size() || vertexIndex < 0 || vertexIndex2 >= vertices.size() || vertexIndex2 < 0)
     {
-        std::cerr << "Invalid vertex index." << std::endl;
+        cerr << "Invalid vertex index." << endl;
         return false;
     }
 
@@ -392,16 +400,16 @@ bool Board::canPlaceInitialSettlementAndRoad(Player &player, std::size_t vertexI
     // Check if the vertex is already occupied by a settlement or city
     if (vertex.getOwner() != -1)
     {
-        std::cerr << "Vertex is already occupied." << std::endl;
+        cerr << "Vertex is already occupied." << endl;
         return false;
     }
     // Check if the vertex is adjacent to a vertex that is already occupied by one of the players
-    const std::vector<Vertex *> &adjacentPlots = vertex.getNeighbors();
+    const vector<Vertex *> &adjacentPlots = vertex.getNeighbors();
     for (const Vertex *adjacentVertex : adjacentPlots)
     {
         if (adjacentVertex->getOwner() != -1)
         {
-            std::cerr << "Adjacent vertex " << adjacentVertex->getIndex() << " already occupied." << std::endl;
+            cerr << "Adjacent vertex " << adjacentVertex->getIndex() << " already occupied." << endl;
             return false;
         }
     }
@@ -411,7 +419,7 @@ bool Board::canPlaceInitialSettlementAndRoad(Player &player, std::size_t vertexI
     {
         if (edges[edgeIndex].getOwner() != -1)
         {
-            std::cerr << "Edge is already occupied." << std::endl;
+            cerr << "Edge is already occupied." << endl;
             return false;
         }
     }
@@ -425,12 +433,11 @@ bool Board::canPlaceInitialSettlementAndRoad(Player &player, std::size_t vertexI
     // Give the player the resources that the vertex sits on
     for (int i = 0; i < 19; i++)
     {
-        const std::vector<Vertex *> &vertices = plots[i].getVertices();
+        const vector<Vertex *> &vertices = plots[i].getVertices();
         for (Vertex *v : vertices)
         {
             if (v->getIndex() == vertexIndex)
             {
-                std::cout << "Plot " << i << " has resource: " << plots[i].getResource() << std::endl;
                 if (plots[i].getResource() == "Mountains")
                 {
                     player.addResource("Ore", 1);
@@ -458,12 +465,12 @@ bool Board::canPlaceInitialSettlementAndRoad(Player &player, std::size_t vertexI
     return true;
 }
 
-bool Board::canPlaceSettlement(int playerId, std::size_t vertexIndex)
+bool Board::canPlaceSettlement(int playerId, size_t vertexIndex)
 {
     // Check if vertexIndex is valid
     if (vertexIndex >= vertices.size() || vertexIndex < 0)
     {
-        std::cerr << "Invalid vertex index." << std::endl;
+        cerr << "Invalid vertex index." << endl;
         return false;
     }
 
@@ -473,23 +480,23 @@ bool Board::canPlaceSettlement(int playerId, std::size_t vertexIndex)
     // Check if the vertex is already occupied by a settlement or city
     if (vertex.getOwner() != -1)
     {
-        std::cerr << "Vertex is already occupied." << std::endl;
+        cerr << "Vertex is already occupied." << endl;
         return false;
     }
 
     // Check adjacency of vertecies to the vertex for existing settlements or cities
-    const std::vector<Vertex *> &adjacentPlots = vertex.getNeighbors();
+    const vector<Vertex *> &adjacentPlots = vertex.getNeighbors();
     for (const Vertex *adjacentVertex : adjacentPlots)
     {
         if (adjacentVertex->getOwner() != -1)
         {
-            std::cerr << "Adjacent vertex" << adjacentVertex->getIndex() << "already occupied." << std::endl;
+            cerr << "Adjacent vertex " << adjacentVertex->getIndex() << " already occupied." << endl;
             return false;
         }
     }
 
     // check if we have at least one edge that belong to the playerID that connected to the vertex we are trying to place a settlement on
-    const std::vector<Edge *> &adjacentEdges = vertex.getEdges();
+    const vector<Edge *> &adjacentEdges = vertex.getEdges();
 
     for (const Edge *edge : adjacentEdges)
     {
@@ -499,16 +506,16 @@ bool Board::canPlaceSettlement(int playerId, std::size_t vertexIndex)
             return true;
         }
     }
-    std::cerr << "No adjacent edges belong to the player." << std::endl;
+    cerr << "No adjacent edges belong to the player." << endl;
     return false;
 }
 
-bool Board::canPlaceRoad(int playerId, std::size_t vertexIndex1, std::size_t vertexIndex2)
+bool Board::canPlaceRoad(int playerId, size_t vertexIndex1, size_t vertexIndex2)
 {
     // Check if vertex indices are valid
     if (vertexIndex1 >= vertices.size() || vertexIndex2 >= vertices.size() || vertexIndex1 == vertexIndex2 || vertexIndex1 < 0 || vertexIndex2 < 0)
     {
-        std::cerr << "Invalid vertex indices." << std::endl;
+        cerr << "Invalid vertex indices." << endl;
         return false;
     }
 
@@ -519,20 +526,20 @@ bool Board::canPlaceRoad(int playerId, std::size_t vertexIndex1, std::size_t ver
     // Check if the vertices are neighbors
     if (!v1.isNeighbor(v2))
     {
-        std::cerr << "Vertices are not neighbors." << std::endl;
+        cerr << "Vertices are not neighbors." << endl;
         return false;
     }
 
     // Check if the road is already occupied
-    const std::vector<Edge *> &adjacentEdges1 = v1.getEdges();
-    const std::vector<Edge *> &adjacentEdges2 = v2.getEdges();
+    const vector<Edge *> &adjacentEdges1 = v1.getEdges();
+    const vector<Edge *> &adjacentEdges2 = v2.getEdges();
     for (const Edge *edge1 : adjacentEdges1)
     {
         for (const Edge *edge2 : adjacentEdges2)
         {
             if (edge1 == edge2 && edge1->getOwner() != -1)
             {
-                std::cerr << "Road is already occupied." << std::endl;
+                cerr << "Road is already occupied." << endl;
                 return false;
             }
         }
@@ -568,12 +575,12 @@ bool Board::canPlaceRoad(int playerId, std::size_t vertexIndex1, std::size_t ver
     return false;
 }
 
-bool Board::canPlaceCity(int playerId, std::size_t vertexIndex)
+bool Board::canPlaceCity(int playerId, size_t vertexIndex)
 {
     // Check if vertexIndex is valid
     if (vertexIndex >= vertices.size() || vertexIndex < 0)
     {
-        std::cerr << "Invalid vertex index." << std::endl;
+        cerr << "Invalid vertex index." << endl;
         return false;
     }
 
@@ -583,16 +590,29 @@ bool Board::canPlaceCity(int playerId, std::size_t vertexIndex)
     // Check if the vertex is already occupied by a city
     if (vertex.getOwner() != playerId)
     {
-        std::cerr << "Vertex is not occupied by the player." << std::endl;
+        cerr << "Vertex is not occupied by the player." << endl;
         return false;
     }
 
     // Check if the vertex is already occupied by a city
     if (vertex.getCity() == 1)
     {
-        std::cerr << "Vertex is already occupied by a city." << std::endl;
+        cerr << "Vertex is already occupied by a city." << endl;
         return false;
     }
     vertex.setCity(1);
     return true;
+}
+
+
+void Board::printWinner()
+{
+    if(winnerIndex != -1)
+    {
+        cout << "Player " << winnerIndex << " has won the game!" << endl;
+    }
+    else
+    {
+        cout << "No winner yet." << endl;
+    }
 }

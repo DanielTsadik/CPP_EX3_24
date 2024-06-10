@@ -2,16 +2,17 @@
 #include "Vertex.hpp"
 
 class Vertex; // Forward declaration
+using namespace std;
 
 class Edge
 {
 public:
-    Edge(const Vertex *v1, const Vertex *v2, std::size_t index);
+    Edge(const Vertex *v1, const Vertex *v2, size_t index);
     Edge(size_t index);
 
     Edge(const Edge &other); // Copy constructor
 
-    std::size_t getIndex() const;
+    size_t getIndex() const;
     void setOwner(int playerId);
     int getOwner() const;
     const Vertex &getVertex1() const;
@@ -22,6 +23,6 @@ public:
 private:
     const Vertex *v1;  // Pointer to the first vertex
     const Vertex *v2;  // Pointer to the second vertex
-    std::size_t index; // Index of the edge
+    size_t index; // Index of the edge
     int owner;         // Owner of the edge
 };

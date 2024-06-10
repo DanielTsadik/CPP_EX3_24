@@ -3,10 +3,10 @@
 #include "Edge.hpp"
 
 // Constructor to initialize the vertex with an index
-Vertex::Vertex(std::size_t index) : index(index), owner(-1), city(-1){}
+Vertex::Vertex(size_t index) : index(index), owner(-1), city(-1){}
 
 // Get the index of the vertex
-std::size_t Vertex::getIndex() const {
+size_t Vertex::getIndex() const {
     return index;
 }
 
@@ -26,7 +26,7 @@ void Vertex::addAdjacentPlot(Plot* plot) {
 }
 
 // Get the adjacent plots
-const std::vector<Plot*>& Vertex::getAdjacentPlots() const {
+const vector<Plot*>& Vertex::getAdjacentPlots() const {
     return adjacentPlots;
 }
 
@@ -46,7 +46,7 @@ bool Vertex::isNeighbor(const Vertex& vertex) const {
 }
 
 // Get the adjacent vertices
-const std::vector<Vertex*>& Vertex::getNeighbors() const {
+const vector<Vertex*>& Vertex::getNeighbors() const {
     return neighbors;
 }
 
@@ -56,7 +56,7 @@ void Vertex::addEdge(Edge* edge) {
 }
 
 // Get the adjacent edges
-const std::vector<Edge*>& Vertex::getEdges() const {
+const vector<Edge*>& Vertex::getEdges() const {
     return edges;
 }
 
