@@ -1,3 +1,6 @@
+// Daniel Tsadik
+// Tsadik88@gmail.com   
+
 #pragma once
 #include <string>
 #include <array>

@@ -1,3 +1,6 @@
+// Daniel Tsadik
+// Tsadik88@gmail.com   
+
 #include "Vertex.hpp"
 #include "Plot.hpp"
 #include "Edge.hpp"

@@ -1,3 +1,6 @@
+# Daniel Tsadik
+# Tsadik88@gmail.com   
+
 # Compiler
 CXX = g++
 

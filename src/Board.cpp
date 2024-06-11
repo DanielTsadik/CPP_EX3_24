@@ -1,6 +1,5 @@
 // Daniel Tsadik
 // Tsadik88@gmail.com   
-// 209307727
 
 #include "Board.hpp"
 #include "Vertex.hpp"

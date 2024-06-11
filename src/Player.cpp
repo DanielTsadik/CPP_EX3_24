@@ -1,3 +1,6 @@
+// Daniel Tsadik
+// Tsadik88@gmail.com   
+
 #include "Player.hpp"
 #include "Board.hpp"
 #include <iostream>

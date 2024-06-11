@@ -1,3 +1,6 @@
+// Daniel Tsadik
+// Tsadik88@gmail.com   
+
 #include "Plot.hpp"
 
 Plot::Plot(const string& resource, int number, size_t index)

@@ -1,3 +1,6 @@
+// Daniel Tsadik
+// Tsadik88@gmail.com   
+
 #ifndef DEVELOPMENTCARD_HPP
 #define DEVELOPMENTCARD_HPP
 

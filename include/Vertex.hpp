@@ -1,3 +1,6 @@
+// Daniel Tsadik
+// Tsadik88@gmail.com   
+
 #ifndef VERTEX_HPP
 #define VERTEX_HPP
 
