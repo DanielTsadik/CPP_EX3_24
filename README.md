@@ -1,29 +1,115 @@
-# קטאן - מחלקות וירושה
-המתיישבים של קטאן הוא משחק קופסא ל-3 עד 4 שחקנים המשלב הן חשיבה אסטרטגית, ניהול משאבים ויכולת מסחר. מטרת המשחק היא לצבור ראשון 10 נקודות ניצחון.
-את הוראות המשחק המלא ניתן למצוא כאן: https://www.hakubia.com/wp-content/uploads/2021/01/%D7%A7%D7%98%D7%90%D7%9F.pdf.
-במטלה אתם תממשו גרסה פשוטה יותר של המשחק עבור 3 שחקנים.
-## חוקי המשחק
-המשחק מורכב מלוח המכיל 19 חלקות אדמה מוקפות בים. כל חלקת אדמה נותנת משאב כלשהו (חוץ מהמדבר). חלקות האדמה במשחק הן: יער (מניב עץ), גבעות (מניבות לבנים), אדמת מרעה (מניבה צמר), אדמה חקלאית (מניבה שיבולת), הרים (מניבים ברזל), מדבר (לא מניב כלום).
-כל חלקי המפה מקבלים מספר כלשהו בין 2 ל-12. 
-### קלפים, יישובים, ערים ומשאבים
-כל שחקן בעל משאבים (כגון שיבולת, ברזל, לבנים וכו') יכול לרכוש איתם דברים שונים במשחק כמו קלפי פיתוח, יישובים, ערים ודרכים.
-- קלף פיתוח: מחירו של קלף פיתוח הוא ברזל 1, צמר 1 ושיבולת 1. השחקן יכול לקבל אחד מ-3 סוגים שונים של קלפים: 1. קלף קידום: זהו קלף המעניק הטבה לשחקן (לאחר מכן הקלף נעלם). בין הקלפים הללו ניתן למצוא: מונופול - השחקן בוחר משאב כלשהו וכל שאר השחקנים מחוייבים להעביר לו את המשאב הזה. בניית דרכים - השחקן יכול לבנות 2 דרכים במפה ללא עלות. שנת שפע - השחקן זוכה לקבל מהבנק שני קלפים של משאבים לבחירה ולהשתמש בהם באותו התור. 2. אבירים - שחקן המחזיק ב-3 קלפים כאלה, מקבל את קלף הצבא הגדול ביותר המקנה לו 2 נקודות ניצחון (אם איבד אביר אחד, הקלף נלקח מהשחקן. שימו לב שיש בדיוק 3 קלפים כאלה!). 3. קלפי נקודות ניצחון - יש 4 קלפים שונים המעניקים נקודת ניצחון למי שמחזיק בהם.
-- בנייה: ניתן לבנות דרכים, ערים ויישובים בצורה הבאה: 1. קטע דרך: עלותו לבנים 1 ועץ 1. קטע דרך יכול להיות מחובר רק ליישוב (או עיר) בבעלות השחקן או לקטע דרך נוסף. 2. יישוב: עלות היישוב היא לבנה 1, עץ 1, צמר 1 ושיבולת 1. ניתן לבנות יישוב על צומת שאליה מובילה דרך אחת לפחות ומברחק של 2 קטעי דרך מיישוב אחר. בניית יישוב מקנה לשחקן נקודת ניצחון אחת. 3. עיר: עיר יכולה להחליף יישוב קיים. עלות הבנייה היא ברזל 3 ושיבולת 2. ברגע שמשדרגים יישוב לעיר, השחקן מאבד את הנקודה של היישוב ומקבל 2 נקודות על הבנייה. עיר מעניקה לשחקן פי-2 יותר משאבים מכל חבלי הארץ הסמוכים לה.
-- משאבים: כאמור, המשאבים מתקבלים מחבלי הארץ השונים. כאשר שחקן מטיל את קוביות המשחק, כל השחקנים מקבלים משאבים בהתאם למספר שיצא בהטלה (כלומר אם יצא 3 בהטלה, אז שחקנים עם יישובים/ערים הגובלים עם חבלי ארץ בעלי אותו מספר זוכים במשאב).
-- מסחר: שחקנים יכולים לבצע מסחר ביניהם (כלומר להחליף קלפים או משאבים) בהתאם לאיך שהם קובעים.
-### מהלך המשחק
-כל שחקן מתחיל את המשחק עם 2 יישובים ו-2 קטעי דרך המעניקים לו 2 נקודות ניצחון. בנוסף, השחקנים מקבלים משאבים התחלתיים בהתאם למקומות שבהם הם מיקמו את היישובים (משאב אחד מכל משאב אפשרי).
-סדר המשחק נקבע באופן שרירותי (לשיקולכם). בכל תור השחקנים מטילים 2 קוביות. בהתאם לתוצאת ההטלה, השחקנים מקבלים משאבים כמו שפורט מקודם.
-שחקן בתור נתון עושה את הפעולות הבאות לפי הסדר (לאחר הטלת הקוביות):
-- הוא יכול לסחור (כלומר להחליף קלפים או משאבים).
-- הוא יכול לבנות דרכים, יישובים או ערים ויכול לקנות קלפי פיתוח.
-  אם השחקן מנצל את אחד מקלפי הפיתוח שברשותו, התור אוטומטית עובר לשחקן הבא (השחקן יכול לנצל את קלף הפיתוח עוד לפני הטלת הקוביות, במקרה כזה התור עובר לשחקן הבא).
-  אם סכום ההטלה הוא 7, על כל השחקנים בעלי יותר מ-7 קלפי משאבים לבחור מחצית מהקלפים ולהחזיר אותם לערימה.
-  ### סיום המשחק
-  המשחק מסתיים בתור שבו אחד השחקנים הגיע ל-10 או יותר נקודות ניצחון. כדי לנצח במשחק, השחקן צריך שיגיע תורו ובאותו התור יהיו לו 10 נקודות לכל הפחות.
+# Settlers of Catan Game
 
+## Author
+**Daniel Tsadik**  
+Email: [Tsadik88@gmail.com](mailto:Tsadik88@gmail.com)
 
-שימו לב - במטלה הזאת אתם לא מקבלים קבצים לדוגמה מלבד הדמו. עליכם לחשוב לבד על הלוגיקה של המשחק ולממש את החוקים (כמובן שאתם יכולים לממש לפי ראות עיניכם אבל עם הסבר). במטלה הזאת אתם תיבחנו גם על יצירתיות. נסו לבנות את לוח המשחק בצורה שתתאים למשחק המקורי (חשבו איך לממש דבר כזה, אולי להוסיף עוד מחלקות?). כמו כן, **חובה** לצרף בדיקות יחידה למטלה הזאת. הסיבה היא פשוטה - המטלה מורכבת מאוד ואתם נדרשים לבדוק את הקוד שלכם. 
+---
 
-יש להוסיף קובץ Makefile כאשר הפקודה ``` make catan ``` מריצה את התוכנית הראשית שלכם (המדגימה סיבוב אחד במשחק). עליכם להגיש קובץ ```README``` המסביר את המימוש שלכם (כלומר מהם חוקי המשחק שהגדרתם), ההיררכיה של המחלקות ובאילו ספריות השתמשתם. עליכם גם לתאר את כל השיטות שכתבתם, ולכתוב תוכנית ```main``` המריצה סיבוב תקין של המשחק. כמו כן, עליכם לכתוב בתחילת כל קובץ את מספר תעודת הזהות שלכם ואת המייל. אי עמידה בהנחיות תגרור הפחתה בציון. 
-בהצלחה!
+## Table of Contents
+1. [Game Rules](#game-rules)
+2. [Class Hierarchy](#class-hierarchy)
+3. [Libraries Used](#libraries-used)
+4. [Prerequisites](#prerequisites)
+5. [Installation Instructions](#installation-instructions)
+6. [Compilation Instructions](#compilation-instructions)
+7. [Running the Game](#running-the-game)
+8. [Usage](#usage)
+9. [Examples](#examples)
+10. [Contributing](#contributing)
+11. [License](#license)
+12. [Acknowledgments](#acknowledgments)
+13. [Issues and Troubleshooting](#issues-and-troubleshooting)
+
+---
+
+## Game Rules
+
+This implementation follows the rules of the popular board game Settlers of Catan. The game is designed for three players, and the objective is to be the first player to reach a certain number of victory points (10 in this implementation).
+
+1. **Setup**: The game board is initialized with a fixed configuration of 19 plots, each with a specific resource type (Mountains, Pasture, Forest, Agricultural, Hills, or Desert) and a number (2-12, except for the Desert plot). There are 54 vertices and 72 edges on the board.
+
+2. **Initial Placement**: Each player takes turns placing two settlements and two roads on the board. Settlements must be placed on unoccupied vertices that are not adjacent to any other settlements or cities. Roads must connect a player's settlement to another unoccupied vertex.
+
+3. **Resource Collection**: On each turn, two dice are rolled, and players with settlements or cities adjacent to plots with the corresponding number receive resources based on the plot's resource type. If a 7 is rolled, players with more than 7 cards must discard half of their resources.
+
+4. **Development Cards**: Players can draw Development Cards from a deck, which can provide various benefits, such as additional resources, roads, or victory points. The deck consists of 14 Knights, 5 Victory Points, 2 Road Building, 2 Year of Plenty, and 2 Monopoly cards.
+
+5. **Building**: Players can use their resources to build new settlements, cities, or roads on the board, following specific placement rules.
+
+6. **Victory Condition**: The first player to reach 10 victory points (determined by the number of settlements, cities, and Development Cards) wins the game.
+
+## Class Hierarchy
+
+- `Board`: Manages the game board, including plots, vertices, edges, and players. It handles resource distribution, development card drawing, and building placement rules.
+- `Plot`: Represents a plot on the board with a specific resource type, number, and vertices.
+- `Vertex`: Represents a vertex on the board, which can be occupied by a settlement or city.
+- `Edge`: Represents an edge on the board, which can be occupied by a road.
+- `Player`: Represents a player in the game, with resources, settlements, cities, roads, and development cards.
+- `DevelopmentCard`: Represents a development card with a specific type (Knight, Victory Point, Road Placement, Year of Plenty, or Monopoly).
+
+## Libraries Used
+
+The following libraries are used in this implementation:
+
+- `<iostream>`: For input/output operations.
+- `<vector>`: For dynamic array storage.
+- `<tuple>`: For holding plot data.
+- `<algorithm>`: For shuffling the development card deck.
+- `<random>`: For generating random numbers for shuffling.
+- `<chrono>`: For seeding the random number generator.
+
+## Prerequisites
+
+- C++ Compiler (e.g., GCC, Clang)
+- C++ Standard Library
+
+## Installation Instructions
+
+1. Ensure you have a C++ compiler installed.
+2. Clone the repository to your local machine:
+    ```bash
+    git clone https://github.com/yourusername/settlers-of-catan.git
+    cd settlers-of-catan
+    ```
+
+## Compilation Instructions
+
+To compile the source files, use the following command:
+```bash
+g++ -o catan Board.cpp DevelopmentCard.cpp Edge.cpp Plot.cpp Vertex.cpp Player.cpp
+
+Running the Game
+
+After compilation, run the game using the following command:
+
+bash
+
+./catan
+
+Usage
+
+The game will prompt players for their moves and actions according to the game rules.
+Examples
+
+Here is an example of how the game prompts might look:
+
+mathematica
+
+Player 1, place your first settlement.
+Enter the vertex number: 12
+Player 1, place your first road.
+Enter the edge number: 34
+
+Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes. Make sure to follow the coding style guidelines and include tests for any new functionality.
+License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+Acknowledgments
+
+Thanks to the developers and community who have contributed to the libraries and tools used in this project.
+Issues and Troubleshooting
+
+If you encounter any issues, please check the issues page for existing problems or open a new issue.

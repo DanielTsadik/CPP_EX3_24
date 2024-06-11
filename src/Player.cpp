@@ -126,7 +126,7 @@ void Player::placeInitialSettlementAndRoad(int vertexIndex, int vertexIndex2, Bo
         settlements.push_back(vertexIndex);
         roads.push_back(board.getEdge(vertexIndex, vertexIndex2));
         cout << this->getName() << " placed an initial settlement on vertex " << vertexIndex << " and a road between vertices " << vertexIndex << " and " << vertexIndex2 << "\n"
-                  << endl;
+             << endl;
     }
     else
     {
@@ -155,7 +155,7 @@ void Player::placeSettlement(int vertexIndex, Board &board)
         cout << "Player " << this->getName() << " now has resources: Wood: " << resources[0].second << ", Brick: " << resources[1].second << ", Wool: " << resources[2].second << ", Wheat: " << resources[3].second << ", Ore: " << resources[4].second << endl;
         // print the points that the player has after placing the settlement
         cout << "Player " << this->getName() << " now has " << points << " points \n"
-                  << endl;
+             << endl;
         // check if the player won the game
         if (points >= 10)
         {
@@ -164,7 +164,7 @@ void Player::placeSettlement(int vertexIndex, Board &board)
             {
                 board.winnerIndex = this->getId();
                 cout << "Player " << this->getName() << " won the game!" << endl;
-            } 
+            }
         }
     }
     else
@@ -191,7 +191,7 @@ void Player::upgradeToCity(int vertexIndex, Board &board)
         cout << "Player " << this->getName() << " now has resources: Wood: " << resources[0].second << ", Brick: " << resources[1].second << ", Wool: " << resources[2].second << ", Wheat: " << resources[3].second << ", Ore: " << resources[4].second << endl;
         // print the points that the player has after upgrading the settlement to a city
         cout << "Player " << this->getName() << " now has " << points << " points \n"
-                  << endl;
+             << endl;
         if (points >= 10)
         {
             // make sure no one else won the game
@@ -267,6 +267,16 @@ void Player::getCities(Board &board) const
     }
 }
 
+const vector<int> &Player::getCitiesVec(Board &board) const
+{
+    return cities;
+}
+
+const vector<int> &Player::getSettlementsVec(Board &board) const
+{
+    return settlements;
+}
+
 const vector<int> &Player::getRoads(Board &board) const
 {
     return roads;
@@ -328,6 +338,9 @@ void Player::chooseDevelopmentCard(Board &board)
     if (card == "Victory Point")
     {
         this->points += 1;
+        // print the points that the player has after buying the development card
+        cout << "Player " << this->getName() << " now has " << points << " points \n"
+             << endl;
         if (points >= 10)
         {
             // make sure no one else won the game

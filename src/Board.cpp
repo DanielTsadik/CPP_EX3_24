@@ -215,22 +215,6 @@ Board::Board(Player &player1, Player &player2, Player &player3)
         vertices[edgeMapping[i][1]].addEdge(&edges[i]);
     }
 
-    // // give each vertex the edges that are connected to it
-    // for (size_t i = 0; i < vertices.size(); ++i)
-    // {
-    //     const vector<Vertex *> &neighbors = vertices[i].getNeighbors();
-    //     for (const Vertex *neighbor : neighbors)
-    //     {
-    //         for (const Edge &edge : edges)
-    //         {
-    //             if ((edge.getVertex1() == vertices[i] && edge.getVertex2() == *neighbor) || (edge.getVertex1() == *neighbor && edge.getVertex2() == vertices[i]))
-    //             {
-    //                 vertices[i].addEdge(*edge);
-    //             }
-    //         }
-    //     }
-    // }
-
     // initialize the deck of the 25 development cards: 14 knigths, 5 victory points, 2 road building, 2 year of plenty, 2 monopoly
     for (int i = 0; i < 14; i++)
     {

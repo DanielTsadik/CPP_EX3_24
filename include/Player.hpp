@@ -32,6 +32,10 @@ public:
     void getCities(Board &board) const;
     const vector<int> &getRoads(Board &board) const;
 
+    const vector<int> &getCitiesVec(Board &board) const;
+
+    const vector<int> &getSettlementsVec(Board &board) const;
+
     void getResources() const;
     void addResource(const string &resource, int amount);
     // void removeResource(const string &resource, int amount);
@@ -71,6 +75,9 @@ public:
     // int to get the winner of the game
     int winner;
 
+    // int for the number of knights played
+    int knightsPlayed = 0;
+
 private:
     int id;
 
@@ -84,8 +91,6 @@ private:
     vector<int> cities;
     // Vector to hold the roads
     vector<int> roads;
-    // int for the number of knights played
-    int knightsPlayed = 0;
 
     // int to keep track of the number of development cards
     int developmentCardCount = 0;
