@@ -66,9 +66,3 @@ The following libraries are used in this implementation:
 ## Usage
 
 To run the game, compile the source files (`Board.cpp`, `DevelopmentCard.cpp`, `Edge.cpp`, `Plot.cpp`, `Vertex.cpp`, and `Player.cpp`) and execute the resulting binary. The game will prompt players for their moves and actions according to the game rules.
-
-### Compilation Instructions
-
-To compile the source files, use the following command:
-```bash
-g++ -o catan Board.cpp DevelopmentCard.cpp Edge.cpp Plot.cpp Vertex.cpp Player.cpp
