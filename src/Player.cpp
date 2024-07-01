@@ -499,9 +499,9 @@ void Player::tradeResources(Board &board, int player, string resource1, int amou
                 if (board.players[player - 1]->resources[j].first == resource1 && board.players[player - 1]->resources[j].second >= amount)
                 {
                     // trade the resources
-                    resources[j].second += amount2;
+                    resources[j].second += amount;
                     resources[i].second -= amount2;
-                    board.players[player - 1]->resources[i].second += amount;
+                    board.players[player - 1]->resources[i].second += amount2;
                     board.players[player - 1]->resources[j].second -= amount;
                     cout << "Player " << this->getName() << " traded " << amount << " " << resource1 << " with player " << board.players[player - 1]->getName() << " for " << amount2 << " " << resource2 << endl;
                     // print the resources that the player has after trading
